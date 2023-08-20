@@ -13,6 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import br.com.fiap.navengandoentretelas.screens.LoginScreen
 import br.com.fiap.navengandoentretelas.screens.MenuScreen
 import br.com.fiap.navengandoentretelas.screens.PedidosScreen
@@ -36,8 +37,20 @@ class MainActivity : ComponentActivity() {
                     ) {
                         composable(route = "login") { LoginScreen(navController)}
                         composable(route = "menu") { MenuScreen(navController)}
-                        composable(route = "pedidos") { PedidosScreen(navController)}
-                        composable(route = "perfil") { PerfilScreen(navController)}
+                        composable(
+                            route = "pedidos?nPedidos={numero}",
+                            arguments = listOf(navArgument(name = "numero") {
+                                defaultValue = "0 Pedidos"
+                            })
+                        )
+                        {
+                            val number = it.arguments?.getString("numero")
+                            PedidosScreen(navController, number!!)
+                        }
+                        composable(route = "perfil/{nome}") {
+                            val nome = it.arguments?.getString("nome")
+                            PerfilScreen(navController, nome!!) // double Bang
+                        }
                     }
                 }
             }

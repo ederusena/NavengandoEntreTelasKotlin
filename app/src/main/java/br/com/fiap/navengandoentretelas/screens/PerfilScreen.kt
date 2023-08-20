@@ -18,14 +18,17 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 
 @Composable
-fun PerfilScreen(navController: NavController) {
+fun PerfilScreen(
+    navController: NavController,
+    nome: String
+) {
     Box(modifier = Modifier
         .fillMaxSize()
         .background(Color(0xFF329F6B))
         .padding(32.dp)
     ){
         Text(
-            text = "PERFIL",
+            text = "PERFIL - $nome",
             fontSize = 24.sp,
             fontWeight = FontWeight.Bold,
             color = Color.White
