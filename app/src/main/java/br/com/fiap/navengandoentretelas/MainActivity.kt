@@ -10,6 +10,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavArgs
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -35,8 +37,8 @@ class MainActivity : ComponentActivity() {
                         navController = navController,
                         startDestination = "login"
                     ) {
-                        composable(route = "login") { LoginScreen(navController)}
-                        composable(route = "menu") { MenuScreen(navController)}
+                        composable(route = "login") { LoginScreen(navController) }
+                        composable(route = "menu") { MenuScreen(navController) }
                         composable(
                             route = "pedidos?nPedidos={numero}",
                             arguments = listOf(navArgument(name = "numero") {
@@ -47,9 +49,20 @@ class MainActivity : ComponentActivity() {
                             val number = it.arguments?.getString("numero")
                             PedidosScreen(navController, number!!)
                         }
-                        composable(route = "perfil/{nome}") {
-                            val nome = it.arguments?.getString("nome")
-                            PerfilScreen(navController, nome!!) // double Bang
+                        composable(
+                            route = "perfil/{nome}/{idade}",
+                            arguments = listOf(
+                                navArgument(name = "nome") {
+                                    type = NavType.StringType
+                                },
+                                navArgument(name = "idade") {
+                                    type = NavType.IntType
+                                }
+                            )
+                        ) {
+                            var nome: String? = it.arguments?.getString("nome", "")
+                            var idade: Int? = it.arguments?.getInt("idade", 0)
+                            PerfilScreen(navController, nome!! ,idade!!) // double Bang
                         }
                     }
                 }
